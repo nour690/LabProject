@@ -1,20 +1,26 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 class Book {
     private String Title, Author ;
     private int AvailableCopies, TotalCopies ;
 
-   
+    public Book(String title, String author, int totalCopies){
+        this.Title = title;
+        this.Author = author;
+        this.TotalCopies = totalCopies;
+    }
+    
     public void setTitle(String title){
-        this.Title = title ; 
+        this.Title = title; 
     }
     public String getTitle(){
         return Title; 
     } 
     public void setAuthor(String author){
-        this.Author = author ; 
+        this.Author = author; 
     }
     public String getAuthor(){
-        return Author ; 
+        return Author; 
     }
     public void setAvailableCopies(int availableCopies){
         this.AvailableCopies = availableCopies ; 
@@ -43,7 +49,17 @@ class Library{
 public class LabProject1 {
     public static void main(String[] args) {
      Scanner input = new Scanner (System.in);
-     for (;;){
+     ArrayList<Book> array = new ArrayList<>();
+    //array1.add(new Book("java", "nour", 5));
+    String name = input.next();
+    String author = input.next();
+    int copies = input.nextInt();
+    
+    Book h1 = new Book(name, author, copies);
+    array.add(h1);
+        System.out.println("book name and author and copies: " + h1.getTitle()
+                + ", " + h1.getAuthor() + ", " + h1.getTotalCopies() + " copies available.");
+     /*for (;;){
      
         System.out.println("Library Management System:");
         System.out.println("1. Add a New Book");
@@ -61,7 +77,7 @@ public class LabProject1 {
             
         
         }
-     }
+     }*/
         
     }
 }

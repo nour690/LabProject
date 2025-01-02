@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.Date;
 class Book {
     private String Title, Author ;
     private int AvailableCopies, TotalCopies ;
@@ -34,14 +33,6 @@ class Book {
     }
     public int getTotalCopies(){
         return TotalCopies ; 
-    }
-    
-    public boolean borrowBook() {
-        if (availableCopies > 0) {
-            availableCopies--;
-            return true;
-        }else
-        return false;
     }
 }
 class User {

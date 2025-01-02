@@ -1,15 +1,41 @@
 import java.util.Scanner;
 import java.util.Date;
 class Book {
-    String title, author ;
-    int availableCopies, totalCopies ;
-    
+    private String Title, Author ;
+    private int AvailableCopies, TotalCopies ;
+
     public Book(String title, String author, int totalCopies) {
         this.title = title;
         this.author = author;
         this.totalCopies = totalCopies;
         this.availableCopies = totalCopies;
     }
+    
+     public void setTitle(String title){
+        this.Title = title ; 
+    }
+    public String getTitle(){
+        return Title; 
+    } 
+    public void setAuthor(String author){
+        this.Author = author ; 
+    }
+    public String getAuthor(){
+        return Author ; 
+    }
+    public void setAvailableCopies(int availableCopies){
+        this.AvailableCopies = availableCopies ; 
+    }
+    public int getAvailableCopies(){
+        return AvailableCopies; 
+    }
+    public void setTotalCopies(int totalCopies){
+        this.TotalCopies = totalCopies ; 
+    }
+    public int getTotalCopies(){
+        return TotalCopies ; 
+    }
+    
     public boolean borrowBook() {
         if (availableCopies > 0) {
             availableCopies--;

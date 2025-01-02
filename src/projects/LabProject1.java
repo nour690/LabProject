@@ -3,15 +3,11 @@ class Book {
     private String Title, Author ;
     private int AvailableCopies, TotalCopies ;
 
-    public Book(String title, String author, int totalCopies) {
-        this.title = title;
-        this.author = author;
-        this.totalCopies = totalCopies;
-        this.availableCopies = totalCopies;
-    }
-    
-    
-     public void setTitle(String title){
+    public void addCopies(int copies) {
+        this.TotalCopies += copies;
+        this.AvailableCopies += copies;
+    } 
+    public void setTitle(String title){
         this.Title = title ; 
     }
     public String getTitle(){
@@ -35,6 +31,7 @@ class Book {
     public int getTotalCopies(){
         return TotalCopies ; 
     }
+    
 }
 class User {
     String name, email;
@@ -42,7 +39,9 @@ class User {
 }
 class Transaction {
     Book user ;
-    
+}
+class Library{
+
 }
 public class LabProject1 {
     public static void main(String[] args) {

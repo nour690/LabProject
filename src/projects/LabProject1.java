@@ -10,6 +10,7 @@ class Book {
         this.availableCopies = totalCopies;
     }
     
+    
      public void setTitle(String title){
         this.Title = title ; 
     }

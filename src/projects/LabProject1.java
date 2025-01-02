@@ -3,10 +3,7 @@ class Book {
     private String Title, Author ;
     private int AvailableCopies, TotalCopies ;
 
-    public void addCopies(int copies) {
-        this.TotalCopies += copies;
-        this.AvailableCopies += copies;
-    } 
+   
     public void setTitle(String title){
         this.Title = title ; 
     }

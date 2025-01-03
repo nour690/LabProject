@@ -103,7 +103,7 @@ class Transaction {
         return type + " ; " + book.getDetails() + " (Available: " + availableCopies + " copies) by " + user.getName() + " on " + date;
     }
 }
-
+ 
 class Library {
 
     private ArrayList<Book> books = new ArrayList<>();

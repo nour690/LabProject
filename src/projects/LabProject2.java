@@ -66,6 +66,7 @@ class Book {
     private int availableCopies;
     private int totalCopies;
 
+    
     public Book(String title, String author, int totalCopies) {
         this.title = title;
         this.author = author;

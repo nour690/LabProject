@@ -3,9 +3,6 @@ import java.util.Scanner;
 import java.util.Date;
 import java.util.ArrayList;
 
-/*
-if book doesn't exist cant borrow
- */
 class Book {
 
     private String title, author;
@@ -16,7 +13,7 @@ class Book {
         this.title = title;
         this.author = author;
         this.totalCopies = totalCopies;
-        //this.availableCopies = totalCopies;
+        this.availableCopies = totalCopies;
     }
 
     // if the book is available then it would substract 1 and return true.
@@ -28,17 +25,20 @@ class Book {
         return false;
     }
 
-    public void returnBook() { 
+    public void returnBook() {
         if (availableCopies < totalCopies) {
             availableCopies++;
         }
     }
-    public int returnAvilability() { 
-        return availableCopies;
-    }
 
     public String getDetails() {
         return title + ", " + author + ", " + availableCopies + " copies.";
+    }
+    public String return_title(){
+        return title;
+    }
+    public String return_author(){
+        return author;
     }
 }
 
@@ -88,27 +88,25 @@ class Transaction {
     private Book book;
     private String type; // "Borrow" or "Return"
     private Date date;
-    private int availableCopies;
 
-    public Transaction(User user, Book book, String type , int availableCopies) {
+    public Transaction(User user, Book book, String type) {
         this.user = user;
         this.book = book;
         this.type = type;
         this.date = new Date();
-        this.availableCopies = availableCopies;
     }
 
-     @Override
+    @Override
     public String toString() {
-        return type + " ; " + book.getDetails() + " (Available: " + availableCopies + " copies) by " + user.getName() + " on " + date;
+        return type + " - " + book.getDetails() + " by " + user.getName() + " on " + date;
     }
 }
- 
+
 class Library {
 
-    private ArrayList<Book> books = new ArrayList<>();
-    private ArrayList<User> users = new ArrayList<>();
-    private ArrayList<Transaction> transactions = new ArrayList<>();
+    private ArrayList<Book> booksArray = new ArrayList<>();
+    private ArrayList<User> usersArray = new ArrayList<>();
+    private ArrayList<Transaction> transactionsArray = new ArrayList<>();
 
     public void addBook(String title, String author, int totalCopies) {
         if (title == null || title.isEmpty() || author == null || author.isEmpty() || totalCopies <= 0) {
@@ -116,33 +114,47 @@ class Library {
             return;
         }
 
-        for (int i = 0; i < books.size(); i++) {
-            Book book = books.get(i);
+        for (int i = 0; i < booksArray.size(); i++) {
+            Book book = booksArray.get(i);
             if (book.getDetails().contains(title) && book.getDetails().contains(author)) {
                 System.out.println("Book already exists in the library.");
                 return;
             }
         }
 
-        books.add(new Book(title, author, totalCopies));
+        booksArray.add(new Book(title, author, totalCopies));
         System.out.println("Book '" + title + "' by " + author + " has been added with " + totalCopies + " copies");
     }
 
+
+//    public void registerUser(String name, String email) {
+//        for (User user : users) {
+//            if (user.getEmail().equalsIgnoreCase(email)) {
+//                System.out.println("A user with this email already exists.");
+//                return;
+//            }
+//        }
+//        users.add(new User(name, email));
+//    }
     public void registerUser(String name, String email) {
-        for (int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
-            if (user.getEmail().equalsIgnoreCase(email)) {
-                System.out.println("A user with this email already exists.");
-                return;
-            }
+    for (User user : usersArray) {
+        if (user.getEmail().equalsIgnoreCase(email)) {
+            System.out.println("A user with this email already exists.");
+            return;
         }
-        users.add(new User(name, email));
     }
+    usersArray.add(new User(name, email));
+    System.out.println("User '" + name + "' has been registered.");
+}
+
+    
+    
 
     public Book findBook(String title, String author) {
-        for (int i = 0; i < books.size(); i++) {
-            Book book = books.get(i);
-            if (book.getDetails().contains(title) && book.getDetails().contains(author)) {
+        
+        for (int i = 0; i < booksArray.size(); i++) {
+            Book book = booksArray.get(i);
+            if (book.return_title().equalsIgnoreCase(title) && book.return_author().equalsIgnoreCase(author)) {
                 return book;
             }
         }
@@ -151,8 +163,8 @@ class Library {
     }
 
     public User findUser(String email) {
-        for (int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
+        for (int i = 0; i < usersArray.size(); i++) {
+            User user = usersArray.get(i);
             if (user.getEmail().equalsIgnoreCase(email)) {
                 return user;
             }
@@ -160,9 +172,10 @@ class Library {
         System.out.println("User not found.");
         return null;
     }
+
     public String returnNameUser(String email) {
-        for (int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
+        for (int i = 0; i < usersArray.size(); i++) {
+            User user = usersArray.get(i);
             if (user.getEmail().equalsIgnoreCase(email)) {
                 return user.getName();
             }
@@ -176,7 +189,7 @@ class Library {
         Book book = findBook(title, author);
         //ZBook book = findBook(author);
         if (user != null && book != null && user.borrowBook(book)) {
-            transactions.add(new Transaction(user, book, "Borrow",book.returnAvilability()));
+            transactionsArray.add(new Transaction(user, book, "Borrow"));
             return true;
         }
         return false;
@@ -186,30 +199,30 @@ class Library {
         User user = findUser(email);
         Book book = findBook(title, author);
         if (user != null && book != null && user.returnBook(book)) {
-            transactions.add(new Transaction(user, book, "Return", book.returnAvilability()));
+            transactionsArray.add(new Transaction(user, book, "Return"));
             return true;
         }
         return false;
     }
 
     public void listBooks() {
-        if (books.isEmpty()) {
+        if (booksArray.isEmpty()) {
             System.out.println("No books available in the library.");
             return;
         }
-        for (int i = 0; i < books.size(); i++) {
-            Book book = books.get(i);
+        for (int i = 0; i < booksArray.size(); i++) {
+            Book book = booksArray.get(i);
             System.out.println(book.getDetails());
         }
     }
 
     public void listTransactions() {
-        if (transactions.isEmpty()) {
+        if (transactionsArray.isEmpty()) {
             System.out.println("No transactions recorded.");
             return;
         }
-        for (int i = 0; i < transactions.size(); i++) {
-            Transaction transaction = transactions.get(i);
+        for (int i = 0; i < transactionsArray.size(); i++) {
+            Transaction transaction = transactionsArray.get(i);
             System.out.println(transaction);
         }
     }
@@ -253,19 +266,26 @@ public class LabProject {
                     library.registerUser(name, email);
                     System.out.println("User '" + name + "' has been registered.");
                     break;*/
+
+                    //--------------------------------------
+//                    System.out.print("Enter name: ");
+//                    String name = scanner.nextLine();
+//                    System.out.print("Enter email: ");
+//                    String email = scanner.nextLine();                    
+//                    // Boş giriş kontrolü
+//                    if (name == null || name.isEmpty() || email == null || email.isEmpty()) {
+//                        System.out.println("Name or email cannot be empty. Please try again.");
+//                        break; // Kullanıcı girişini yeniden başlatmak için döngüden çıkın
+//                    }
+//
+//                    library.registerUser(name, email);
+//                    System.out.println("User '" + name + "' has been registered.");
+//                    break;
                     System.out.print("Enter name: ");
                     String name = scanner.nextLine();
                     System.out.print("Enter email: ");
                     String email = scanner.nextLine();
-
-                    // Boş giriş kontrolü
-                    if (name == null || name.isEmpty() || email == null || email.isEmpty()) {
-                        System.out.println("Name or email cannot be empty. Please try again.");
-                        break; // Kullanıcı girişini yeniden başlatmak için döngüden çıkın
-                    }
-
                     library.registerUser(name, email);
-                    System.out.println("User '" + name + "' has been registered.");
                     break;
 
                 case 3: // Borrow a book

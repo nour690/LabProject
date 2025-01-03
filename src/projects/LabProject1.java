@@ -59,7 +59,7 @@ public class LabProject1 {
     array.add(h1);
         System.out.println("book name and author and copies: " + h1.getTitle()
                 + ", " + h1.getAuthor() + ", " + h1.getTotalCopies() + " copies available.");
-     /*for (;;){
+     for (;;){
      
         System.out.println("Library Management System:");
         System.out.println("1. Add a New Book");
@@ -77,7 +77,7 @@ public class LabProject1 {
             
         
         }
-     }*/
+     }
         
     }
 }

@@ -110,7 +110,6 @@ class Library {
     private int userCount = 0;
     private Transaction[] transactions = new Transaction[100];
     private int transactionCount = 0;
-
     public void addBook(String title, String author, int totalCopies) {
     if (title == null || title.isEmpty() || author == null || author.isEmpty() || totalCopies <= 0) {
         System.out.println("Invalid book details. Please try again.");
@@ -140,6 +139,7 @@ class Library {
             Book[][] newShelves = new Book[shelves.length + 10][4];
             System.arraycopy(shelves, 0, newShelves, 0, shelves.length);
             shelves = newShelves;
+            System.out.println("10 new shelves were built.");
         }
         currentShelf++;
         booksOnShelf = 0;
@@ -149,9 +149,6 @@ class Library {
     shelves[currentShelf][booksOnShelf++] = new Book(title, author, totalCopies);
     System.out.println("Book '" + title + "' by " + author + " has been added with " + totalCopies + " copies.");
 }
-
-
-
     public void registerUser(String name, String email) {
         for (int i = 0; i < userCount; i++) {
             if (users[i].getEmail().equalsIgnoreCase(email)) {
@@ -159,17 +156,14 @@ class Library {
                 return;
             }
         }
-
         if (userCount == users.length) {
             User[] newUsers = new User[users.length + 10];
             System.arraycopy(users, 0, newUsers, 0, users.length);
             users = newUsers;
         }
-
         users[userCount++] = new User(name, email);
         System.out.println("User '" + name + "' has been registered.");
     }
-
     public Book findBook(String title, String author) {
         for (int i = 0; i <= currentShelf; i++) {
             for (int j = 0; j < (i == currentShelf ? booksOnShelf : 4); j++) {
@@ -181,7 +175,6 @@ class Library {
         System.out.println("Book not found.");
         return null;
     }
-
     public User findUser(String email) {
         for (int i = 0; i < userCount; i++) {
             if (users[i].getEmail().equalsIgnoreCase(email)) {
@@ -191,11 +184,9 @@ class Library {
         System.out.println("User not found.");
         return null;
     }
-
     public boolean borrowBook(String email, String title, String author) {
         User user = findUser(email);
         Book book = findBook(title, author);
-
 //        if (user != null && book != null && user.borrowBook(book)) {
 //            if (transactionCount == transactions.length) {
 //                Transaction[] newTransactions = new Transaction[transactions.length + 100];
@@ -215,16 +206,11 @@ class Library {
             System.out.println("Book borrowed successfully! Remaining copies: " + book.availableCopies);
             return true;
         }
-
-
-
         return false;
     }
-
     public boolean returnBook(String email, String title, String author) {
         User user = findUser(email);
         Book book = findBook(title, author);
-
         if (user != null && book != null && user.returnBook(book)) {
             if (transactionCount == transactions.length) {
                 Transaction[] newTransactions = new Transaction[transactions.length + 100];
@@ -237,26 +223,22 @@ class Library {
         }
         return false;
     }
-
     public void listBooks() {
         if (currentShelf == 0 && booksOnShelf == 0) {
             System.out.println("No books available in the library.");
             return;
         }
-
         for (int i = 0; i <= currentShelf; i++) {
             for (int j = 0; j < (i == currentShelf ? booksOnShelf : 4); j++) {
                 System.out.println(shelves[i][j].getDetails());
             }
         }
     }
-
     public void listTransactions() {
         if (transactionCount == 0) {
             System.out.println("No transactions recorded.");
             return;
         }
-
         for (int i = 0; i < transactionCount; i++) {
             System.out.println(transactions[i]);
         }

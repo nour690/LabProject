@@ -174,7 +174,6 @@ class Library {
         // and here it displays the details of the added book.
         System.out.println("Book '" + title + "' by " + author + " has been added with " + totalCopies + " copies.");
     }
-
     // this method is where users are registered.
     public void registerUser(String name, String email) {
         // 2 users can not have the same email.
@@ -238,6 +237,7 @@ class Library {
         }
         return false;
     }
+
     public boolean returnBook(String email, String title, String author) {
         User user = findUser(email);
         Book book = findBook(title, author);
@@ -253,6 +253,7 @@ class Library {
         }
         return false;
     }
+
     public void listBooks() {
         if (currentShelf == 0 && booksOnShelf == 0) {
             System.out.println("No books available in the library.");
@@ -281,7 +282,7 @@ class Library {
     }
 }
 
-public class newEdit {
+public class Project {
 
     public static void main(String[] args) {
         Library library = new Library();
